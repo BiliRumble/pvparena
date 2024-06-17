@@ -477,8 +477,7 @@ public class PACheck {
         return true;
     }
 
-    public static void handlePlayerDeath(final Arena arena,
-                                         final Player player, final PlayerDeathEvent event) {
+    public static void handlePlayerDeath(final Arena arena, final Player player, final PlayerDeathEvent event) {
 
         int priority = 0;
         PACheck res = new PACheck();
@@ -631,6 +630,9 @@ public class PACheck {
         arena.getDebugger().i("handleRespawn!", aPlayer.getName());
         new InventoryRefillRunnable(arena, aPlayer.get(), drops);
         SpawnManager.respawn(arena, aPlayer, null);
+        Player p = Bukkit.getPlayer(aPlayer.getName());
+        // 回血
+        p.setHealth(20f);
         arena.unKillPlayer(aPlayer.get(),
                 aPlayer.get().getLastDamageCause() == null ? null : aPlayer
                         .get().getLastDamageCause().getCause(), aPlayer.get()

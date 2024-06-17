@@ -90,6 +90,14 @@ public class Arena {
     private int startCount;
     private int round;
 
+    public boolean isFree() {
+        return free;
+    }
+
+    public int getStartCount() {
+        return startCount;
+    }
+
     // Runnable IDs
     public BukkitRunnable endRunner;
     public BukkitRunnable pvpRunner;

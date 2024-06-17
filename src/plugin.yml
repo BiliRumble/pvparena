@@ -1,11 +1,12 @@
 name: pvparena
 author: slipcor
-authors: [ slipcor, Eredrim ]
+authors: [ slipcor, Eredrim, rumble ]
 prefix: PVP Arena
 main: net.slipcor.pvparena.PVPArena
 version: ${project.version}${buildVersion}
 api-version: 1.13
-softdepend: [ Vault,WorldEdit,WorldGuard,LibsDisguises,DisguiseCraft,CrackShot,Multiverse-Core,MultiWorld,MyWorlds ]
+depend: [ Vault, PlaceholderAPI ]
+softdepend: [ WorldEdit,WorldGuard,LibsDisguises,DisguiseCraft,CrackShot,Multiverse-Core,MultiWorld,MyWorlds ]
 description: create, manage and enhance PvP arenas
 website: https://www.spigotmc.org/resources/pvp-arena.16584
 dev-url: https://www.spigotmc.org/resources/pvp-arena.16584

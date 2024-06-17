@@ -51,7 +51,7 @@ public class PVPArena extends JavaPlugin {
     public static PVPArena instance;
 
     private static Debug debugger;
-    private static final int BSTATS_PLUGIN_ID = 5067;
+    private static final int BSTATS_PLUGIN_ID = 22303;
 
     private ArenaGoalManager agm;
     private ArenaModuleManager amm;
@@ -104,6 +104,121 @@ public class PVPArena extends JavaPlugin {
 
     public boolean isShuttingDown() {
         return shuttingDown;
+    }
+
+    @Override
+    public void onEnable() {
+        shuttingDown = false;
+        instance = this;
+        debugger = new Debug(1);
+
+        if (!Bukkit.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
+            throw new RuntimeException("Couldn't hook PlaceholderAPI, plugin has disable.");
+        }
+
+        if (!Bukkit.getServer().getPluginManager().isPluginEnabled("Vault")) {
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
+            throw new RuntimeException("Couldn't hook Vault, plugin has disable.");
+        }
+
+        //Enable bStats
+        Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
+
+        saveDefaultConfig();
+        if (!getConfig().contains("shortcuts")) {
+            final List<String> ffa = new ArrayList<>();
+            final List<String> teams = new ArrayList<>();
+
+            ffa.add("arena1");
+            ffa.add("arena2");
+
+            teams.add("teamarena1");
+            teams.add("teamarena2");
+
+            getConfig().options().copyDefaults(true);
+            getConfig().addDefault("shortcuts.freeforall", ffa);
+            getConfig().addDefault("shortcuts.teams", teams);
+
+            saveConfig();
+        }
+
+        if (getConfig().contains("update.type") || getConfig().contains("update.mode")) {
+            getConfig().set("update.plugin", getConfig().getString("update.mode", "announce"));
+            getConfig().set("update.modules", getConfig().getBoolean("update.modules", true) ? "download" : "announce");
+            getConfig().set("update.type", null);
+            getConfig().set("update.mode", null);
+
+            saveConfig();
+        }
+
+        getDataFolder().mkdir();
+        new File(getDataFolder().getPath() + "/arenas").mkdir();
+        new File(getDataFolder().getPath() + "/goals").mkdir();
+        new File(getDataFolder().getPath() + "/mods").mkdir();
+        new File(getDataFolder().getPath() + "/regionshapes").mkdir();
+        new File(getDataFolder().getPath() + "/dumps").mkdir();
+        new File(getDataFolder().getPath() + "/files").mkdir();
+        new File(getDataFolder().getPath() + "/templates").mkdir();
+
+        FileConfiguration cfg = getConfig();
+        List<String> toDelete = cfg.getStringList("todelete");
+        if (!toDelete.isEmpty()){
+            for (String jar : toDelete) {
+                PAA_Modules.remove(jar);
+            }
+            cfg.set("todelete", null);
+            saveConfig();
+        }
+
+        agm = new ArenaGoalManager(this);
+        amm = new ArenaModuleManager(this);
+        arsm = new ArenaRegionShapeManager(this);
+
+        loadArenaCommands();
+        loadGlobalCommands();
+
+        Language.init(getConfig().getString("language", "en"));
+        Help.init(getConfig().getString("language", "en"));
+
+        StatisticsManager.initialize();
+
+        getServer().getPluginManager()
+                .registerEvents(new BlockListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityListener(),
+                this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(),
+                this);
+        getServer().getPluginManager().registerEvents(new InventoryListener(),
+                this);
+
+        if (getConfig().getInt("ver", 0) < 1) {
+            getConfig().options().copyDefaults(true);
+            getConfig().set("ver", 1);
+            saveConfig();
+        }
+
+        Debug.load(this, Bukkit.getConsoleSender());
+        ArenaClass.addGlobalClasses();
+        ArenaManager.load_arenas();
+
+        if (getConfig().getBoolean("use_shortcuts") ||
+                getConfig().getBoolean("only_shortcuts")) {
+            ArenaManager.readShortcuts(getConfig().getConfigurationSection("shortcuts"));
+        }
+
+        updateChecker = new UpdateChecker(this.getFile());
+
+        Language.logInfo(MSG.LOG_PLUGIN_ENABLED, getDescription().getFullName());
+    }
+
+    @Override
+    public void onDisable() {
+        shuttingDown = true;
+        ArenaManager.reset(true);
+        Debug.destroy();
+        this.getUpdateChecker().runOnDisable();
+        Language.logInfo(MSG.LOG_PLUGIN_DISABLED, getDescription().getFullName());
     }
 
     private void loadArenaCommands() {
@@ -296,110 +411,5 @@ public class PVPArena extends JavaPlugin {
     @Override
     public List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias, final String[] args) {
         return TabManager.getMatches(sender, arenaCommands, globalCommands, args);
-    }
-
-    @Override
-    public void onDisable() {
-        shuttingDown = true;
-        ArenaManager.reset(true);
-        Debug.destroy();
-        this.getUpdateChecker().runOnDisable();
-        Language.logInfo(MSG.LOG_PLUGIN_DISABLED, getDescription().getFullName());
-    }
-
-    @Override
-    public void onEnable() {
-        shuttingDown = false;
-        instance = this;
-        debugger = new Debug(1);
-
-        //Enable bStats
-        Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
-
-        saveDefaultConfig();
-        if (!getConfig().contains("shortcuts")) {
-            final List<String> ffa = new ArrayList<>();
-            final List<String> teams = new ArrayList<>();
-
-            ffa.add("arena1");
-            ffa.add("arena2");
-
-            teams.add("teamarena1");
-            teams.add("teamarena2");
-
-            getConfig().options().copyDefaults(true);
-            getConfig().addDefault("shortcuts.freeforall", ffa);
-            getConfig().addDefault("shortcuts.teams", teams);
-
-            saveConfig();
-        }
-
-        if (getConfig().contains("update.type") || getConfig().contains("update.mode")) {
-            getConfig().set("update.plugin", getConfig().getString("update.mode", "announce"));
-            getConfig().set("update.modules", getConfig().getBoolean("update.modules", true) ? "download" : "announce");
-            getConfig().set("update.type", null);
-            getConfig().set("update.mode", null);
-
-            saveConfig();
-        }
-
-        getDataFolder().mkdir();
-        new File(getDataFolder().getPath() + "/arenas").mkdir();
-        new File(getDataFolder().getPath() + "/goals").mkdir();
-        new File(getDataFolder().getPath() + "/mods").mkdir();
-        new File(getDataFolder().getPath() + "/regionshapes").mkdir();
-        new File(getDataFolder().getPath() + "/dumps").mkdir();
-        new File(getDataFolder().getPath() + "/files").mkdir();
-        new File(getDataFolder().getPath() + "/templates").mkdir();
-
-        FileConfiguration cfg = getConfig();
-        List<String> toDelete = cfg.getStringList("todelete");
-        if (!toDelete.isEmpty()){
-            for (String jar : toDelete) {
-                PAA_Modules.remove(jar);
-            }
-            cfg.set("todelete", null);
-            saveConfig();
-        }
-
-        agm = new ArenaGoalManager(this);
-        amm = new ArenaModuleManager(this);
-        arsm = new ArenaRegionShapeManager(this);
-
-        loadArenaCommands();
-        loadGlobalCommands();
-
-        Language.init(getConfig().getString("language", "en"));
-        Help.init(getConfig().getString("language", "en"));
-
-        StatisticsManager.initialize();
-
-        getServer().getPluginManager()
-                .registerEvents(new BlockListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityListener(),
-                this);
-        getServer().getPluginManager().registerEvents(new PlayerListener(),
-                this);
-        getServer().getPluginManager().registerEvents(new InventoryListener(),
-                this);
-
-        if (getConfig().getInt("ver", 0) < 1) {
-            getConfig().options().copyDefaults(true);
-            getConfig().set("ver", 1);
-            saveConfig();
-        }
-
-        Debug.load(this, Bukkit.getConsoleSender());
-        ArenaClass.addGlobalClasses();
-        ArenaManager.load_arenas();
-
-        if (getConfig().getBoolean("use_shortcuts") ||
-                getConfig().getBoolean("only_shortcuts")) {
-            ArenaManager.readShortcuts(getConfig().getConfigurationSection("shortcuts"));
-        }
-
-        updateChecker = new UpdateChecker(this.getFile());
-
-        Language.logInfo(MSG.LOG_PLUGIN_ENABLED, getDescription().getFullName());
     }
 }

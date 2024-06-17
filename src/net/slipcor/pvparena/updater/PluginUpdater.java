@@ -21,7 +21,7 @@ import static net.slipcor.pvparena.core.Language.MSG;
  */
 public class PluginUpdater extends AbstractUpdater {
 
-    private static final String API_URL = "https://api.github.com/repos/Eredrim/pvparena/releases/latest";
+    private static final String API_URL = "https://api.github.com/repos/bilirumble/pvparena/releases/latest";
     private static final String CONFIG_NODE = "update.plugin";
     private File pluginJarFile;
 
