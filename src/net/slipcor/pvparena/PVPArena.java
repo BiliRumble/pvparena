@@ -12,10 +12,7 @@ import net.slipcor.pvparena.core.Language;
 import net.slipcor.pvparena.core.Language.MSG;
 import net.slipcor.pvparena.core.StringParser;
 import net.slipcor.pvparena.expanisons.ArenaExpanion;
-import net.slipcor.pvparena.listeners.BlockListener;
-import net.slipcor.pvparena.listeners.EntityListener;
-import net.slipcor.pvparena.listeners.InventoryListener;
-import net.slipcor.pvparena.listeners.PlayerListener;
+import net.slipcor.pvparena.listeners.*;
 import net.slipcor.pvparena.loadables.ArenaGoalManager;
 import net.slipcor.pvparena.loadables.ArenaModule;
 import net.slipcor.pvparena.loadables.ArenaModuleManager;
@@ -197,6 +194,8 @@ public class PVPArena extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(),
                 this);
         getServer().getPluginManager().registerEvents(new InventoryListener(),
+                this);
+        getServer().getPluginManager().registerEvents(new QuitListener(),
                 this);
 
         if (getConfig().getInt("ver", 0) < 1) {
