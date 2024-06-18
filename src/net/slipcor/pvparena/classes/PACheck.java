@@ -861,10 +861,6 @@ public class PACheck {
 
         arena.setStartingTime();
         arena.updateScoreboards();
-
-        for (ArenaPlayer aPlayer : arena.getEveryone()) {
-            Bukkit.getPlayer(aPlayer.getName()).removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
-        }
         return true;
     }
 }
