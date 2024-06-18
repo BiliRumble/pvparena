@@ -633,6 +633,7 @@ public class PACheck {
         Player p = Bukkit.getPlayer(aPlayer.getName());
         // 回血
         p.setHealth(20f);
+        p.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
         arena.unKillPlayer(aPlayer.get(),
                 aPlayer.get().getLastDamageCause() == null ? null : aPlayer
                         .get().getLastDamageCause().getCause(), aPlayer.get()

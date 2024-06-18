@@ -427,6 +427,9 @@ public final class Language {
         STATS_HEAD("nulang.stats.head", "Statistics TOP %1% (%2%)"),
         STATS_TYPENOTFOUND("nulang.stats.typenotfound", "Statistics type not found! Valid values: &e%1%&r"),
 
+        RESPAWN_TITLE("nulang.respawn.title", "&aRespawn!"),
+        RESPAWN_SUBTITLE("nulang.respawn.subtitle", "&aTry again!"),
+
         STATTYPE_DAMAGE("nulang.stattype.DAMAGE", StatisticsManager.Type.DAMAGE.getName()),
         STATTYPE_DAMAGETAKE("nulang.stattype.DAMAGETAKE", StatisticsManager.Type.DAMAGETAKE.getName()),
         STATTYPE_DEATHS("nulang.stattype.DEATHS", StatisticsManager.Type.DEATHS.getName()),
