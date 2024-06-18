@@ -50,6 +50,14 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>bintray-pvparena-repo</id>
+            <name>PVPArena</name>
+            <url>file://${basedir}/target/deploy</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <defaultGoal>clean package install</defaultGoal>
         <finalName>pvparena-${project.version}${buildVersion}</finalName>
