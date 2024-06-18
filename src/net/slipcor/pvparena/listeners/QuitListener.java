@@ -1,5 +1,6 @@
 package net.slipcor.pvparena.listeners;
 
+import net.slipcor.pvparena.PVPArena;
 import net.slipcor.pvparena.api.PVPArenaAPI;
 import net.slipcor.pvparena.arena.Arena;
 import net.slipcor.pvparena.arena.ArenaPlayer;
@@ -33,7 +34,7 @@ public class QuitListener implements Listener {
 
         String ArenaName = PVPArenaAPI.getArenaName(p);
 
-        if (ArenaName == null) {
+        if (Objects.equals(ArenaName, "")) {
             return;
         }
 
