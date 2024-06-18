@@ -45,3 +45,4 @@ jobs:
           name: build
           path: |
             target/deploy/**/*.jar
+            target/deploy/**/*.md5
