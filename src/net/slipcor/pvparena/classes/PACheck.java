@@ -635,7 +635,7 @@ public class PACheck {
         Player p = Bukkit.getPlayer(aPlayer.getName());
         // 回血
         if (p != null) {
-            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20, 20));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 255, false));
             p.setMaximumNoDamageTicks(20 * 10); // 10s无敌
             p.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
         }
