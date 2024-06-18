@@ -105,4 +105,29 @@ public final class PVPArenaAPI {
 
         return result;
     }
+
+    /**
+     * get the arena by name
+     *
+     * @param name the arena name
+     * @return the arena if found, null otherwise
+     */
+    public static Arena getArenaByName(final String name) {
+        if (!Debug.override) {
+            DEBUG.i("API: get arena by name: " + name);
+        }
+        return ArenaManager.getArenaByName(name);
+    }
+
+    /**
+     *  get the arenas a player is part of
+     * @param exactName the location to check
+     * @return the arena name if part of an arena, "" otherwise
+     */
+    public  static Arena getArenaByRegionLocation(final String exactName) {
+        if (!Debug.override) {
+            DEBUG.i("API: get arena of exact: " + exactName);
+        }
+        return ArenaManager.getArenaByExactName(exactName);
+    }
 }
