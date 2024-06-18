@@ -195,8 +195,6 @@ public class PVPArena extends JavaPlugin {
                 this);
         getServer().getPluginManager().registerEvents(new InventoryListener(),
                 this);
-        getServer().getPluginManager().registerEvents(new QuitListener(),
-                this);
 
         if (getConfig().getInt("ver", 0) < 1) {
             getConfig().options().copyDefaults(true);

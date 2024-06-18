@@ -18,6 +18,8 @@ import net.slipcor.pvparena.core.Debug;
 import net.slipcor.pvparena.core.Language;
 import net.slipcor.pvparena.core.Language.MSG;
 import net.slipcor.pvparena.events.PAGoalEvent;
+import net.slipcor.pvparena.events.PAJoinEvent;
+import net.slipcor.pvparena.events.PAStartEvent;
 import net.slipcor.pvparena.loadables.ArenaGoalManager;
 import net.slipcor.pvparena.loadables.ArenaModule;
 import net.slipcor.pvparena.loadables.ArenaModuleManager;
@@ -740,6 +742,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerJoin(final PlayerJoinEvent event) {
+        Player p = event.getPlayer();
+        p.teleport(Objects.requireNonNull(Bukkit.getWorld("maps")).getSpawnLocation().add(0.5, 0.5, 0.5));
+
         final Player player = event.getPlayer();
 
         if (player.isDead()) {
@@ -984,4 +989,21 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPAJoin(PAJoinEvent event) {
+        Player player = event.getPlayer();
+        ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 114514, 255, true, true));
+        DEBUG.i("Add Potion");
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPAStart(PAStartEvent event) {
+        Arena arena = event.getArena();
+        for (ArenaPlayer aPlayer : arena.getEveryone()) {
+            Player player = Bukkit.getPlayer(aPlayer.getName());
+            player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+            DEBUG.i("Remove %1's DAMAGE_RESISTANCE", player.getName());
+        }
+    }
 }
