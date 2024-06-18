@@ -39,7 +39,11 @@ jobs:
       - name: Deploy the package
         run: mvn --batch-mode deploy -DbuildVersion=-b${{ env.build_version }}
 
-      - name: Post to Website
-        run: |
-          echo "don't do it!"
-          tree
+      - name: Archive to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: |
+            target/deploy/net/slipcor/pvparena/*
+            target/deploy/pvparena-1.15.5-SNAPSHOT-b1.jar
+            target/deploy/original-pvparena-1.15.5-SNAPSHOT-b1.jar
