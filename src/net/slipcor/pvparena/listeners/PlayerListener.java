@@ -992,6 +992,7 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPAJoin(PAJoinEvent event) {
         Player player = event.getPlayer();
+        player.sendMessage("a");
         ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 114514, 255, true, true));
         DEBUG.i("Add Potion");
