@@ -28,10 +28,7 @@ import net.slipcor.pvparena.managers.InventoryManager;
 import net.slipcor.pvparena.managers.PermissionManager;
 import net.slipcor.pvparena.managers.SpawnManager;
 import net.slipcor.pvparena.managers.TeamManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
@@ -361,6 +358,7 @@ public class PlayerListener implements Listener {
         if (arena == null) {
             return;
         }
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_DEATH, 1, 2);
         PACheck.handlePlayerDeath(arena, player, event);
     }
 

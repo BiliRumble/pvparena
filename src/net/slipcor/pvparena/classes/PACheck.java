@@ -33,6 +33,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -632,8 +634,11 @@ public class PACheck {
         SpawnManager.respawn(arena, aPlayer, null);
         Player p = Bukkit.getPlayer(aPlayer.getName());
         // 回血
-        p.setHealth(20f);
-        p.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
+        if (p != null) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20, 20));
+            p.setMaximumNoDamageTicks(20 * 10); // 10s无敌
+            p.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
+        }
         arena.unKillPlayer(aPlayer.get(),
                 aPlayer.get().getLastDamageCause() == null ? null : aPlayer
                         .get().getLastDamageCause().getCause(), aPlayer.get()
