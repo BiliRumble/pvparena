@@ -42,6 +42,8 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.IllegalPluginAccessException;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
@@ -794,6 +796,15 @@ public class PlayerListener implements Listener {
         final Arena arena = aPlayer.getArena();
         if (arena != null) {
             arena.playerLeave(player, CFG.TP_EXIT, true, false, true);
+        }
+
+        Player p = Bukkit.getPlayer(aPlayer.getName());
+        // 回血
+        if (p != null) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 255, false));
+            p.setMaximumNoDamageTicks(20 * 10); // 10s无敌
+            p.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
+            DEBUG.i("Try to add hea and set NDT");
         }
     }
 

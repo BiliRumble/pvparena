@@ -630,13 +630,6 @@ public class PACheck {
         arena.getDebugger().i("handleRespawn!", aPlayer.getName());
         new InventoryRefillRunnable(arena, aPlayer.get(), drops);
         SpawnManager.respawn(arena, aPlayer, null);
-        Player p = Bukkit.getPlayer(aPlayer.getName());
-        // 回血
-        if (p != null) {
-            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 255, false));
-            p.setMaximumNoDamageTicks(20 * 10); // 10s无敌
-            p.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
-        }
         arena.unKillPlayer(aPlayer.get(),
                 aPlayer.get().getLastDamageCause() == null ? null : aPlayer
                         .get().getLastDamageCause().getCause(), aPlayer.get()
