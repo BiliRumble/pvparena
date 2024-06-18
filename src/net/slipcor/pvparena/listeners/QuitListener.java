@@ -1,17 +1,11 @@
 package net.slipcor.pvparena.listeners;
 
-import net.slipcor.pvparena.PVPArena;
 import net.slipcor.pvparena.api.PVPArenaAPI;
 import net.slipcor.pvparena.arena.Arena;
 import net.slipcor.pvparena.arena.ArenaPlayer;
-import net.slipcor.pvparena.commands.PAA_Edit;
 import net.slipcor.pvparena.core.Config;
-import net.slipcor.pvparena.core.Language;
-import net.slipcor.pvparena.loadables.ArenaModule;
 import net.slipcor.pvparena.managers.ArenaManager;
-import net.slipcor.pvparena.managers.ConfigurationManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +18,7 @@ public class QuitListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
-        p.teleport(Objects.requireNonNull(Bukkit.getWorld("maps")).getSpawnLocation());
+        p.teleport(Objects.requireNonNull(Bukkit.getWorld("maps")).getSpawnLocation().add(0.5, 0.5, 0.5));
     }
 
     @EventHandler
