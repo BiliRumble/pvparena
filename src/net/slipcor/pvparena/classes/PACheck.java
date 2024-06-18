@@ -1,12 +1,14 @@
 package net.slipcor.pvparena.classes;
 
 import net.slipcor.pvparena.PVPArena;
+import net.slipcor.pvparena.api.PVPArenaAPI;
 import net.slipcor.pvparena.arena.Arena;
 import net.slipcor.pvparena.arena.ArenaPlayer;
 import net.slipcor.pvparena.arena.ArenaPlayer.Status;
 import net.slipcor.pvparena.arena.ArenaTeam;
 import net.slipcor.pvparena.arena.PlayerState;
 import net.slipcor.pvparena.commands.PAA_Region;
+import net.slipcor.pvparena.core.Config;
 import net.slipcor.pvparena.core.Config.CFG;
 import net.slipcor.pvparena.core.Debug;
 import net.slipcor.pvparena.core.Language;
@@ -36,10 +38,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <pre>
@@ -480,6 +479,12 @@ public class PACheck {
     }
 
     public static void handlePlayerDeath(final Arena arena, final Player player, final PlayerDeathEvent event) {
+
+        if (arena.isValid()) {
+            arena.callLeaveEvent(ArenaPlayer.parsePlayer(player.getName()).get());
+            arena.playerLeave(ArenaPlayer.parsePlayer(player.getName()).get(), Config.CFG.TP_EXIT, false, false, false);
+            return;
+        }
 
         int priority = 0;
         PACheck res = new PACheck();
