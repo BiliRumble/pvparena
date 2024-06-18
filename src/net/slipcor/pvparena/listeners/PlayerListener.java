@@ -356,13 +356,6 @@ public class PlayerListener implements Listener {
     public void onPlayerDeath(final PlayerDeathEvent event) {
         final Player player = event.getEntity();
         final Arena arena = ArenaPlayer.parsePlayer(player.getName()).getArena();
-        final ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
-        Status status = ArenaPlayer.parsePlayer(player.getName()).getStatus();
-
-        if (status == Status.WARM) {
-            arena.callLeaveEvent(aPlayer.get());
-            arena.playerLeave(aPlayer.get(), Config.CFG.TP_EXIT, false, false, false);
-        }
 
         if (arena == null) {
             return;

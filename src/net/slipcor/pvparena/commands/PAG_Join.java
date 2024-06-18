@@ -14,6 +14,8 @@ import net.slipcor.pvparena.managers.ConfigurationManager;
 import net.slipcor.pvparena.managers.PermissionManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collections;
 import java.util.List;
@@ -93,6 +95,8 @@ public class PAG_Join extends AbstractArenaCommand {
             arena.getDebugger().i("Join_1", sender);
             pArena.msg(sender, Language.parse(arena, MSG.ERROR_ARENA_ALREADY_PART_OF, ArenaManager.getIndirectArenaName(pArena)));
         }
+
+        ((Player) sender).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 114514, 255, true));
 
     }
 
