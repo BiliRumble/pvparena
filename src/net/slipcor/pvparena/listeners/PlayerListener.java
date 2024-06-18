@@ -12,6 +12,7 @@ import net.slipcor.pvparena.classes.PASpawn;
 import net.slipcor.pvparena.commands.PAA_Setup;
 import net.slipcor.pvparena.commands.PAG_Arenaclass;
 import net.slipcor.pvparena.commands.PAG_Leave;
+import net.slipcor.pvparena.core.Config;
 import net.slipcor.pvparena.core.Config.CFG;
 import net.slipcor.pvparena.core.Debug;
 import net.slipcor.pvparena.core.Language;
@@ -355,9 +356,18 @@ public class PlayerListener implements Listener {
     public void onPlayerDeath(final PlayerDeathEvent event) {
         final Player player = event.getEntity();
         final Arena arena = ArenaPlayer.parsePlayer(player.getName()).getArena();
+        final ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
+        Status status = ArenaPlayer.parsePlayer(player.getName()).getStatus();
+
+        if (status == Status.WARM) {
+            arena.callLeaveEvent(aPlayer.get());
+            arena.playerLeave(aPlayer.get(), Config.CFG.TP_EXIT, false, false, false);
+        }
+
         if (arena == null) {
             return;
         }
+
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_DEATH, 1, 2);
         PACheck.handlePlayerDeath(arena, player, event);
     }

@@ -479,13 +479,6 @@ public class PACheck {
     }
 
     public static void handlePlayerDeath(final Arena arena, final Player player, final PlayerDeathEvent event) {
-
-        if (arena.isValid()) {
-            arena.callLeaveEvent(ArenaPlayer.parsePlayer(player.getName()).get());
-            arena.playerLeave(ArenaPlayer.parsePlayer(player.getName()).get(), Config.CFG.TP_EXIT, false, false, false);
-            return;
-        }
-
         int priority = 0;
         PACheck res = new PACheck();
 
