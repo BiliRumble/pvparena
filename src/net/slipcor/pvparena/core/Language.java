@@ -705,7 +705,7 @@ public final class Language {
         PLACEHOLDER_STATUS_FREE("placeholder.status.free", "&aFree"),
         PLACEHOLDER_STATUS_VALID("placeholder.status.valid", "&cValid"),
 
-        Z("version", "0.9.0.0");
+        Z("version", "0.9.1.0");
 
         private final String node;
         private String value;

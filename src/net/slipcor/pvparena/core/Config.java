@@ -46,7 +46,7 @@ public class Config {
     public enum CFG {
 
 
-        Z("configversion", "v0.9.0.0", null),
+        Z("configversion", "v0.9.1.0", null),
 
         CHAT_COLORNICK("chat.colorNick", true, null),
         CHAT_DEFAULTTEAM("chat.defaultTeam", false, null),

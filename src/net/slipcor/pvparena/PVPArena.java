@@ -11,6 +11,7 @@ import net.slipcor.pvparena.core.Help;
 import net.slipcor.pvparena.core.Language;
 import net.slipcor.pvparena.core.Language.MSG;
 import net.slipcor.pvparena.core.StringParser;
+import net.slipcor.pvparena.expanisons.ArenaExpanion;
 import net.slipcor.pvparena.listeners.BlockListener;
 import net.slipcor.pvparena.listeners.EntityListener;
 import net.slipcor.pvparena.listeners.InventoryListener;
@@ -106,6 +107,8 @@ public class PVPArena extends JavaPlugin {
         return shuttingDown;
     }
 
+    private ArenaExpanion PvparenaExpansion;
+
     @Override
     public void onEnable() {
         shuttingDown = false;
@@ -124,6 +127,10 @@ public class PVPArena extends JavaPlugin {
 
         //Enable bStats
         Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
+
+        //Enable Placeholder
+        PvparenaExpansion = new ArenaExpanion(this);
+        PvparenaExpansion.register();
 
         saveDefaultConfig();
         if (!getConfig().contains("shortcuts")) {
@@ -215,6 +222,7 @@ public class PVPArena extends JavaPlugin {
     @Override
     public void onDisable() {
         shuttingDown = true;
+        PvparenaExpansion.unregister();
         ArenaManager.reset(true);
         Debug.destroy();
         this.getUpdateChecker().runOnDisable();
