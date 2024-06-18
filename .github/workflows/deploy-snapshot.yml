@@ -40,4 +40,6 @@ jobs:
         run: mvn --batch-mode deploy -DbuildVersion=-b${{ env.build_version }}
 
       - name: Post to Website
-        run: echo "don't do it!"
+        run: |
+          echo "don't do it!"
+          tree
