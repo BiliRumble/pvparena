@@ -3,6 +3,7 @@ package net.slipcor.pvparena.expanisons;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.slipcor.pvparena.PVPArena;
 import net.slipcor.pvparena.arena.Arena;
+import net.slipcor.pvparena.core.Config;
 import net.slipcor.pvparena.core.Language;
 import net.slipcor.pvparena.managers.ArenaManager;
 import org.bukkit.OfflinePlayer;
@@ -36,16 +37,26 @@ public class ArenaExpanion extends PlaceholderExpansion {
         if (params.startsWith("status_")) {
             String arenaName = params.replace("status_", "");
             Arena arena = ArenaManager.getArenaByName(arenaName);
-            if (arena.isFree()) {
+            if (arena.isValid()) {
                 return Language.parse(Language.MSG.PLACEHOLDER_STATUS_FREE);
             }
-            return Language.parse(Language.MSG.PLACEHOLDER_STATUS_VALID);
+            return Language.parse(Language.MSG.PLACEHOLDER_STATUS_BUSY);
         }
 
         if (params.startsWith("startcount_")) {
             String arenaName = params.replace("startcount_", "");
             Arena arena = ArenaManager.getArenaByName(arenaName);
-            return String.valueOf(arena.getStartCount());
+            return String.valueOf(arena.getArenaConfig().getInt(Config.CFG.READY_MINPLAYERS));
+        }
+
+        if (params.startsWith("maxplayers_")) {
+            String arenaName = params.replace("maxplayers_", "");
+            Arena arena = ArenaManager.getArenaByName(arenaName);
+            int PlayerCount = arena.getEveryone().size();
+            if (PlayerCount < arena.getArenaConfig().getInt(Config.CFG.READY_MINPLAYERS)) {
+                return String.valueOf(arena.getArenaConfig().getInt(Config.CFG.READY_MINPLAYERS));
+            }
+            return String.valueOf(arena.getArenaConfig().getInt(Config.CFG.READY_MAXPLAYERS)+1);
         }
 
         if (params.startsWith("playercount_")) {
@@ -63,16 +74,26 @@ public class ArenaExpanion extends PlaceholderExpansion {
         if (params.startsWith("status_")) {
             String arenaName = params.replace("status_", "");
             Arena arena = ArenaManager.getArenaByName(arenaName);
-            if (arena.isFree()) {
+            if (arena.isValid()) {
                 return Language.parse(Language.MSG.PLACEHOLDER_STATUS_FREE);
             }
-            return Language.parse(Language.MSG.PLACEHOLDER_STATUS_VALID);
+            return Language.parse(Language.MSG.PLACEHOLDER_STATUS_BUSY);
         }
 
         if (params.startsWith("startcount_")) {
             String arenaName = params.replace("startcount_", "");
             Arena arena = ArenaManager.getArenaByName(arenaName);
-            return String.valueOf(arena.getStartCount());
+            return String.valueOf(arena.getArenaConfig().getInt(Config.CFG.READY_MINPLAYERS));
+        }
+
+        if (params.startsWith("maxplayers_")) {
+            String arenaName = params.replace("maxplayers_", "");
+            Arena arena = ArenaManager.getArenaByName(arenaName);
+            int PlayerCount = arena.getEveryone().size();
+            if (PlayerCount < arena.getArenaConfig().getInt(Config.CFG.READY_MINPLAYERS)) {
+                return String.valueOf(arena.getArenaConfig().getInt(Config.CFG.READY_MINPLAYERS));
+            }
+            return String.valueOf(arena.getArenaConfig().getInt(Config.CFG.READY_MAXPLAYERS)+1);
         }
 
         if (params.startsWith("playercount_")) {

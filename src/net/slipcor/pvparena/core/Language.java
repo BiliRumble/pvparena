@@ -703,7 +703,7 @@ public final class Language {
         MODULE_WORLDGUARD_SAVED("nulang.mod.worldguard.saved", "Region &e%2%&f saved to &e%1%."),
 
         PLACEHOLDER_STATUS_FREE("placeholder.status.free", "&aFree"),
-        PLACEHOLDER_STATUS_VALID("placeholder.status.valid", "&cValid"),
+        PLACEHOLDER_STATUS_BUSY("placeholder.status.valid", "&cBusy"),
 
         Z("version", "0.9.1.0");
 
