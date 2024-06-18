@@ -6,7 +6,7 @@
     <artifactId>pvparena</artifactId>
     <version>1.15.5-SNAPSHOT</version>
     <name>PVP Arena</name>
-    <url>https://github.com/Eredrim/pvparena</url>
+    <url>https://github.com/bilirumble/pvparena</url>
 
     <properties>
         <buildVersion></buildVersion>
