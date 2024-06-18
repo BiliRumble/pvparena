@@ -44,6 +44,5 @@ jobs:
         with:
           name: build
           path: |
-            target/deploy/net/slipcor/pvparena/*
-            target/deploy/pvparena-1.15.5-SNAPSHOT-b1.jar
-            target/deploy/original-pvparena-1.15.5-SNAPSHOT-b1.jar
+            target/deploy/net/slipcor/pvparena/**/*.*
+            target/deploy/*.jar
