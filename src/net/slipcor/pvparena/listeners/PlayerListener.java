@@ -992,7 +992,7 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPAJoin(PAJoinEvent event) {
         Player player = event.getPlayer();
-        player.sendMessage("a");
+        player.setMaximumNoDamageTicks(20 * 99999999);
         ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 114514, 255, true, true));
         DEBUG.i("Add Potion");
@@ -1003,6 +1003,7 @@ public class PlayerListener implements Listener {
         Arena arena = event.getArena();
         for (ArenaPlayer aPlayer : arena.getEveryone()) {
             Player player = Bukkit.getPlayer(aPlayer.getName());
+            player.setMaximumNoDamageTicks(20 * 10);
             player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
             DEBUG.i("Remove %1's DAMAGE_RESISTANCE", player.getName());
         }
