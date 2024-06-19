@@ -16,6 +16,7 @@ import net.slipcor.pvparena.core.Language;
 import net.slipcor.pvparena.core.Language.MSG;
 import net.slipcor.pvparena.events.PAGoalEvent;
 import net.slipcor.pvparena.events.PAJoinEvent;
+import net.slipcor.pvparena.events.PAPlayerClassChangeEvent;
 import net.slipcor.pvparena.events.PAStartEvent;
 import net.slipcor.pvparena.loadables.ArenaGoalManager;
 import net.slipcor.pvparena.loadables.ArenaModule;
@@ -40,6 +41,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.IllegalPluginAccessException;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -986,20 +988,22 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerMove(PlayerMoveEvent event) {
-       ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(event.getPlayer().getName());
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onPlayerCI(PlayerChangedMainHandEvent event) {
+        ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(event.getPlayer().getName());
         Arena arena = aPlayer.getArena();
+        if (arena != null && aPlayer.getStatus().equals(Status.LOUNGE)) {
+            event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+        }
+    }
 
-       if (arena != null && aPlayer.getStatus().equals(Status.LOUNGE) && ArenaRegion.tooFarAway(arena, event.getPlayer())) {
-           ArenaTeam arenaTeam = aPlayer.getArenaTeam();
-           ArenaClass arenaClass = aPlayer.getArenaClass();
-           arena.playerLeave(event.getPlayer(), CFG.TP_EXIT, false, true, false);
-           arena.tryJoin(Objects.requireNonNull(event.getPlayer().getPlayer()), arenaTeam);
-           if (arenaClass != null) {
-               ArenaPlayer.parsePlayer(event.getPlayer().getName()).setArenaClass(arenaClass);
-           }
-       }
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPAChange(PAPlayerClassChangeEvent event) {
+        ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(event.getPlayer().getName());
+        Arena arena = aPlayer.getArena();
+        if (arena != null && aPlayer.getStatus().equals(Status.LOUNGE)) {
+            event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
