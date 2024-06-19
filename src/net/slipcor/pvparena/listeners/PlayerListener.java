@@ -1,11 +1,8 @@
 package net.slipcor.pvparena.listeners;
 
 import net.slipcor.pvparena.PVPArena;
-import net.slipcor.pvparena.arena.Arena;
-import net.slipcor.pvparena.arena.ArenaPlayer;
+import net.slipcor.pvparena.arena.*;
 import net.slipcor.pvparena.arena.ArenaPlayer.Status;
-import net.slipcor.pvparena.arena.ArenaTeam;
-import net.slipcor.pvparena.arena.PlayerState;
 import net.slipcor.pvparena.classes.PABlockLocation;
 import net.slipcor.pvparena.classes.PACheck;
 import net.slipcor.pvparena.classes.PASpawn;
@@ -987,6 +984,22 @@ public class PlayerListener implements Listener {
             }
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerMove(PlayerMoveEvent event) {
+       ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(event.getPlayer().getName());
+        Arena arena = aPlayer.getArena();
+
+       if (arena != null && aPlayer.getStatus().equals(Status.LOUNGE) && ArenaRegion.tooFarAway(arena, event.getPlayer())) {
+           ArenaTeam arenaTeam = aPlayer.getArenaTeam();
+           ArenaClass arenaClass = aPlayer.getArenaClass();
+           arena.playerLeave(event.getPlayer(), CFG.TP_EXIT, false, true, false);
+           arena.tryJoin(Objects.requireNonNull(event.getPlayer().getPlayer()), arenaTeam);
+           if (arenaClass != null) {
+               ArenaPlayer.parsePlayer(event.getPlayer().getName()).setArenaClass(arenaClass);
+           }
+       }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
