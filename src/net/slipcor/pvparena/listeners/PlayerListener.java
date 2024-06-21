@@ -1005,7 +1005,6 @@ public class PlayerListener implements Listener {
         for (ArenaPlayer aPlayer : arena.getEveryone()) {
             Player player = Bukkit.getPlayer(aPlayer.getName());
             player.setMaximumNoDamageTicks(20 * 10);
-            player.sendMessage("huh?");
             player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
             player.removePotionEffect(PotionEffectType.REGENERATION);
             DEBUG.i("Remove %1's DAMAGE_RESISTANCE", player.getName());

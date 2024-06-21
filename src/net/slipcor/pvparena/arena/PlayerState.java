@@ -142,7 +142,7 @@ public final class PlayerState {
             player.setGameMode(GameMode.getByValue(arena.getArenaConfig().getInt(CFG.GENERAL_GAMEMODE)));
         }
         player.setCollidable(arena.getArenaConfig().getBoolean(CFG.PLAYER_COLLISION));
-        PlayerState.removeEffects(player, true);
+        PlayerState.removeEffects(player, false);
 
         if (arena.getArenaConfig().getBoolean(CFG.CHAT_COLORNICK)) {
             final ArenaTeam team = ArenaPlayer.parsePlayer(player.getName()).getArenaTeam();
@@ -290,12 +290,9 @@ public final class PlayerState {
                 for(final PotionEffect pe :player.getActivePotionEffects())
                 {
                     if (must) {
-                        Bukkit.getLogger().info("false!");
                         player.removePotionEffect(pe.getType());
                     } else if (pe.getType() != PotionEffectType.REGENERATION && pe.getType() != PotionEffectType.DAMAGE_RESISTANCE) {
-                        Bukkit.getLogger().info("true!");
                         return; // Don't do anything!
-
                     }
                 }
             }
@@ -306,10 +303,8 @@ public final class PlayerState {
             for(final PotionEffect pe :player.getActivePotionEffects())
             {
                 if (must) {
-                    Bukkit.getLogger().info("false!1");
                     player.removePotionEffect(pe.getType());
                 } else if (pe.getType() != PotionEffectType.REGENERATION && pe.getType() != PotionEffectType.DAMAGE_RESISTANCE) {
-                    Bukkit.getLogger().info("true!1");
                     return; // Don't do anything!
                 }
             }
