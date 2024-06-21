@@ -1011,8 +1011,9 @@ public class PlayerListener implements Listener {
         //TODO: fix it!
         Player player = event.getPlayer();
         player.setMaximumNoDamageTicks(20 * 99999999);
-        player.sendMessage("test");
         ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect give " + player.getName() + " minecraft:resistance 114514 255 true");
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect give " + player.getName() + " minecraft:regeneration 114514 255 true");
         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 100));
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 100));
         DEBUG.i("Add Potion");
@@ -1024,9 +1025,10 @@ public class PlayerListener implements Listener {
         for (ArenaPlayer aPlayer : arena.getEveryone()) {
             Player player = Bukkit.getPlayer(aPlayer.getName());
             player.setMaximumNoDamageTicks(20 * 10);
-            player.sendMessage("test1");
             player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
             player.removePotionEffect(PotionEffectType.REGENERATION);
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect clear " + player.getName() + "minecraft:resistance");
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect clear " + player.getName() + "minecraft:regeneration");
             DEBUG.i("Remove %1's DAMAGE_RESISTANCE", player.getName());
         }
     }
