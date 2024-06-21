@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.logging.Logger;
 
 /**
  * <pre>Arena Player State class</pre>
@@ -289,9 +290,12 @@ public final class PlayerState {
                 for(final PotionEffect pe :player.getActivePotionEffects())
                 {
                     if (must) {
+                        Bukkit.getLogger().info("false!");
                         player.removePotionEffect(pe.getType());
                     } else if (pe.getType() != PotionEffectType.REGENERATION && pe.getType() != PotionEffectType.DAMAGE_RESISTANCE) {
+                        Bukkit.getLogger().info("true!");
                         return; // Don't do anything!
+
                     }
                 }
             }
@@ -302,8 +306,10 @@ public final class PlayerState {
             for(final PotionEffect pe :player.getActivePotionEffects())
             {
                 if (must) {
+                    Bukkit.getLogger().info("false!1");
                     player.removePotionEffect(pe.getType());
                 } else if (pe.getType() != PotionEffectType.REGENERATION && pe.getType() != PotionEffectType.DAMAGE_RESISTANCE) {
+                    Bukkit.getLogger().info("true!1");
                     return; // Don't do anything!
                 }
             }
