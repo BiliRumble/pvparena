@@ -788,8 +788,12 @@ public class PlayerListener implements Listener {
         // instantiate and/or reset a player. This fixes issues with leaving
         // players and makes sure every player is an arenaplayer ^^
 
+        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 255, false, false));
+        player.setMaximumNoDamageTicks(20 * 10); // 10s无敌
 
         if (aPlayer.getArena() != null && aPlayer.getStatus() == Status.FIGHT) {
+            player.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
+            DEBUG.i("Try to add hea and set NDT");
             Arena arena = aPlayer.getArena();
             arena.getDebugger().i("Trying to override a rogue RespawnEvent!");
         }
@@ -801,13 +805,6 @@ public class PlayerListener implements Listener {
         if (arena != null) {
             arena.playerLeave(player, CFG.TP_EXIT, true, false, true);
         }
-
-        Player p = event.getPlayer();
-        // 回血
-        p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 255, false, false));
-        p.setMaximumNoDamageTicks(20 * 10); // 10s无敌
-        p.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
-        DEBUG.i("Try to add hea and set NDT");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
