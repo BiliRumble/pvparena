@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
@@ -140,7 +141,7 @@ public final class PlayerState {
             player.setGameMode(GameMode.getByValue(arena.getArenaConfig().getInt(CFG.GENERAL_GAMEMODE)));
         }
         player.setCollidable(arena.getArenaConfig().getBoolean(CFG.PLAYER_COLLISION));
-        PlayerState.removeEffects(player);
+        PlayerState.removeEffects(player, true);
 
         if (arena.getArenaConfig().getBoolean(CFG.CHAT_COLORNICK)) {
             final ArenaTeam team = ArenaPlayer.parsePlayer(player.getName()).getArenaTeam();
@@ -211,7 +212,7 @@ public final class PlayerState {
         }
 
 
-        removeEffects(player);
+        removeEffects(player, true);
         player.addPotionEffects(this.potionEffects);
 
         aPlayer.setTelePass(false);
@@ -281,13 +282,17 @@ public final class PlayerState {
 
     }
 
-    public static void removeEffects(final Player player) {
+    public static void removeEffects(final Player player, boolean must) {
         class RunLater implements Runnable {
             @Override
             public void run() {
                 for(final PotionEffect pe :player.getActivePotionEffects())
                 {
-                    player.removePotionEffect(pe.getType());
+                    if (must) {
+                        player.removePotionEffect(pe.getType());
+                    } else if (pe.getType() != PotionEffectType.REGENERATION && pe.getType() != PotionEffectType.DAMAGE_RESISTANCE) {
+                        return; // Don't do anything!
+                    }
                 }
             }
         }
@@ -296,7 +301,11 @@ public final class PlayerState {
         } catch (Exception e) {
             for(final PotionEffect pe :player.getActivePotionEffects())
             {
-                player.removePotionEffect(pe.getType());
+                if (must) {
+                    player.removePotionEffect(pe.getType());
+                } else if (pe.getType() != PotionEffectType.REGENERATION && pe.getType() != PotionEffectType.DAMAGE_RESISTANCE) {
+                    return; // Don't do anything!
+                }
             }
         }
     }

@@ -1652,7 +1652,7 @@ public class Arena {
             return;
         }
 
-        PlayerState.removeEffects(player);
+        PlayerState.removeEffects(player, false);
 
         if (aPlayer.getNextArenaClass() != null) {
             InventoryManager.clearInventory(aPlayer.get());
