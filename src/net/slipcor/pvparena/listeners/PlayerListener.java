@@ -802,14 +802,12 @@ public class PlayerListener implements Listener {
             arena.playerLeave(player, CFG.TP_EXIT, true, false, true);
         }
 
-        Player p = Bukkit.getPlayer(aPlayer.getName());
+        Player p = event.getPlayer();
         // 回血
-        if (p != null) {
-            p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 255, false));
-            p.setMaximumNoDamageTicks(20 * 10); // 10s无敌
-            p.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
-            DEBUG.i("Try to add hea and set NDT");
-        }
+        p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 255, false, false));
+        p.setMaximumNoDamageTicks(20 * 10); // 10s无敌
+        p.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
+        DEBUG.i("Try to add hea and set NDT");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -990,12 +988,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPAJoin(PAJoinEvent event) {
-        //TODO: fix it!
         Player player = event.getPlayer();
         player.setMaximumNoDamageTicks(20 * 99999999);
         ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 114514, 255, false, false));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 114514, 255, false, false));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 114514, 255, true, false));
         DEBUG.i("Add Potion");
     }
 
