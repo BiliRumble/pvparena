@@ -988,32 +988,14 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPlayerCI(PlayerChangedMainHandEvent event) {
-        ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(event.getPlayer().getName());
-        Arena arena = aPlayer.getArena();
-        if (arena != null && aPlayer.getStatus().equals(Status.LOUNGE)) {
-            event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPAChange(PAPlayerClassChangeEvent event) {
-        ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(event.getPlayer().getName());
-        Arena arena = aPlayer.getArena();
-        if (arena != null && aPlayer.getStatus().equals(Status.LOUNGE)) {
-            event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-        }
-    }
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPAJoin(PAJoinEvent event) {
         //TODO: fix it!
         Player player = event.getPlayer();
         player.setMaximumNoDamageTicks(20 * 99999999);
         ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect give " + player.getName() + " minecraft:resistance 114514 255 true");
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect give " + player.getName() + " minecraft:regeneration 114514 255 true");
+        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 100, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 100, true));
         DEBUG.i("Add Potion");
     }
 
@@ -1023,8 +1005,8 @@ public class PlayerListener implements Listener {
         for (ArenaPlayer aPlayer : arena.getEveryone()) {
             Player player = Bukkit.getPlayer(aPlayer.getName());
             player.setMaximumNoDamageTicks(20 * 10);
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect clear " + player.getName() + "minecraft:resistance");
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect clear " + player.getName() + "minecraft:regeneration");
+            player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+            player.removePotionEffect(PotionEffectType.REGENERATION);
             DEBUG.i("Remove %1's DAMAGE_RESISTANCE", player.getName());
         }
     }
