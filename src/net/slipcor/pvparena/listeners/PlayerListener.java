@@ -1008,6 +1008,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPAJoin(PAJoinEvent event) {
+        //TODO:fix it!
         Player player = event.getPlayer();
         player.setMaximumNoDamageTicks(20 * 99999999);
         ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
