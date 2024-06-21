@@ -784,26 +784,31 @@ public class PlayerListener implements Listener {
     public void onPlayerRespawn(final PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
         final ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
+        Bukkit.getLogger().info("1");
         // aPlayer.setArena(null);
         // instantiate and/or reset a player. This fixes issues with leaving
         // players and makes sure every player is an arenaplayer ^^
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 3, 255, false, false));
         player.setMaximumNoDamageTicks(20 * 10); // 10s无敌
+        Bukkit.getLogger().info("2");
 
         if (aPlayer.getArena() != null && aPlayer.getStatus() == Status.FIGHT) {
             player.sendTitle(Language.parse(MSG.RESPAWN_TITLE), Language.parse(MSG.RESPAWN_SUBTITLE));
             DEBUG.i("Try to add hea and set NDT");
             Arena arena = aPlayer.getArena();
             arena.getDebugger().i("Trying to override a rogue RespawnEvent!");
+            Bukkit.getLogger().info("3");
         }
 
         aPlayer.debugPrint();
+        Bukkit.getLogger().info("4");
 
         // aPlayer.readDump();
         final Arena arena = aPlayer.getArena();
         if (arena != null) {
             arena.playerLeave(player, CFG.TP_EXIT, true, false, true);
+            Bukkit.getLogger().info("5");
         }
     }
 
