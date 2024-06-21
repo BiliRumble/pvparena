@@ -1011,9 +1011,10 @@ public class PlayerListener implements Listener {
         //TODO:fix it!
         Player player = event.getPlayer();
         player.setMaximumNoDamageTicks(20 * 99999999);
+        player.sendMessage("test");
         ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
-        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 114514, 255));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 114514, 255));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 9999, 255));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 9999, 255));
         DEBUG.i("Add Potion");
     }
 
@@ -1023,6 +1024,7 @@ public class PlayerListener implements Listener {
         for (ArenaPlayer aPlayer : arena.getEveryone()) {
             Player player = Bukkit.getPlayer(aPlayer.getName());
             player.setMaximumNoDamageTicks(20 * 10);
+            player.sendMessage("test1");
             player.removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
             player.removePotionEffect(PotionEffectType.REGENERATION);
             DEBUG.i("Remove %1's DAMAGE_RESISTANCE", player.getName());
