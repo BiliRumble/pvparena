@@ -1013,8 +1013,8 @@ public class PlayerListener implements Listener {
         player.setMaximumNoDamageTicks(20 * 99999999);
         player.sendMessage("test");
         ArenaPlayer aPlayer = ArenaPlayer.parsePlayer(player.getName());
-        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 9999, 255));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 9999, 255));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 100));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 100));
         DEBUG.i("Add Potion");
     }
 
