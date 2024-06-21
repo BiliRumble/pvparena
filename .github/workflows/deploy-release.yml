@@ -16,3 +16,11 @@ jobs:
           
       - name: Deploy the package
         run: mvn --batch-mode deploy # skip upload
+
+      - name: Archive to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: |
+            target/deploy/**/*.jar
+            target/deploy/**/*.md5
